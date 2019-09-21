@@ -1,0 +1,40 @@
+// This file is part of www.nand2tetris.org
+// and the book "The Elements of Computing Systems"
+// by Nisan and Schocken, MIT Press.
+// File name: projects/01/Mux4Way16.hdl
+
+/**
+ * 4-way 16-bit multiplexor:
+ * out = a if sel == 00
+ *       b if sel == 01
+ *       c if sel == 10
+ *       d if sel == 11
+ */
+
+CHIP Mux4Way16 {
+    IN a[16], b[16], c[16], d[16], sel[2];
+    OUT out[16];
+
+    PARTS:
+    // The lowest bit is on the rightmost
+	Not(in=sel[1], out=nselfirst); 
+	Not(in=sel[0], out=nselscnd);
+	
+	And(a=nselfirst, b=nselscnd, out=caseA);
+	And16(a=a, b[0]=caseA,b[1]=caseA,b[2]=caseA,b[3]=caseA,b[4]=caseA,b[5]=caseA,b[6]=caseA,b[7]=caseA,b[8]=caseA,b[9]=caseA,b[10]=caseA,b[11]=caseA,b[12]=caseA,b[13]=caseA,b[14]=caseA,b[15]=caseA, out=path1);
+	
+	And(a=nselfirst, b=sel[0], out=caseB);
+	And16(a=b, b[0]=caseB,b[1]=caseB,b[2]=caseB,b[3]=caseB,b[4]=caseB,b[5]=caseB,b[6]=caseB,b[7]=caseB,b[8]=caseB,b[9]=caseB,b[10]=caseB,b[11]=caseB,b[12]=caseB,b[13]=caseB,b[14]=caseB,b[15]=caseB, out=path2);
+	
+	And(a=sel[1], b=nselscnd, out=caseC);
+	And16(a=c, b[0]=caseC,b[1]=caseC,b[2]=caseC,b[3]=caseC,b[4]=caseC,b[5]=caseC,b[6]=caseC,b[7]=caseC,b[8]=caseC,b[9]=caseC,b[10]=caseC,b[11]=caseC,b[12]=caseC,b[13]=caseC,b[14]=caseC,b[15]=caseC, out=path3);
+	
+	And(a=sel[0], b=sel[1], out=caseD);
+	And16(a=d, b[0]=caseD,b[1]=caseD,b[2]=caseD,b[3]=caseD,b[4]=caseD,b[5]=caseD,b[6]=caseD,b[7]=caseD,b[8]=caseD,b[9]=caseD,b[10]=caseD,b[11]=caseD,b[12]=caseD,b[13]=caseD,b[14]=caseD,b[15]=caseD, out=path4);
+	
+	Or16(a=path1, b=path2, out=fork1);
+	Or16(a=path3, b=path4, out=fork2);
+	
+	Or16(a=fork1, b=fork2, out=out);
+	
+}
