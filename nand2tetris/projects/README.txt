@@ -25,3 +25,8 @@ Build all the logic gates described in Chapter 1 (see list below), yielding a ba
  DMux4Way 
  DMux8Way
  
+ How To:
+ -------
+ 1. Download the "projects" and "tools" folders to your system. Keep them in the same location
+ 2. The tools folder contains the Hardware Simulator which can be used to test the chips
+ 
